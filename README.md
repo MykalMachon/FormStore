@@ -6,7 +6,7 @@ a really simple indexedDB based form caching/storage system.
 
 ## Todos
 
-- [x] write v1 of the code based on this codepen
+- [x] write v1 of the code based on [this codepen](https://codepen.io/mykalmachon/pen/b72458af7d9548a7d69021811ea695ed?editors=0011)
 - [ ] write tests for the code
 - [ ] write a build script to compile a UMD module
 
