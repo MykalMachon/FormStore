@@ -1,0 +1,37 @@
+{
+  "name": "formstore",
+  "version": "1.0.0",
+  "description": "a really simple indexedDB based form caching/storage system.",
+  "main": "./src/index.ts",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "test:coverage": "jest --coverage",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MykalMachon/FormDB.git"
+  },
+  "author": "Mykal Machon <mykal@tinybox.dev>",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/MykalMachon/FormDB/issues"
+  },
+  "homepage": "https://github.com/MykalMachon/FormDB#readme",
+  "dependencies": {
+    "idb-keyval": "^6.1.0"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^8.11.2",
+    "@types/jest": "^27.4.0",
+    "jest": "^27.4.7",
+    "typescript": "^4.5.5"
+  }
+}
