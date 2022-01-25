@@ -4,6 +4,12 @@ a really simple indexedDB based form caching/storage system.
 
 > 🔥🐉 **_Warning!_** This isn't very stable yet. I would wait to use it in production.
 
+## Todos
+
+- [x] write v1 of the code based on this codepen
+- [ ] write tests for the code
+- [ ] write a build script to compile a UMD module
+
 ## Installation
 
 You can install this package via npm with
