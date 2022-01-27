@@ -1,9 +1,10 @@
 {
   "name": "@tinybox-software/formstore",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a simple indexedDB based form caching/storage system.",
   "source": "./src/index.ts",
-  "main": "./dist/index.js",
+  "main": "./dist/formstore.umd.js",
+  "module": "./dist/formstore.es.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "vite",
