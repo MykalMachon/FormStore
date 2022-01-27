@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
-    
+    "outFile": "./dist/index.js",
+    "moduleResolution": "node",
+    "module": "amd",
     "lib": ["es2015", "DOM", "DOM.Iterable"],
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "declaration": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*"]
 }
