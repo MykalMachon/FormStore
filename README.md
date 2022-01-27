@@ -4,18 +4,12 @@ a really simple indexedDB based form caching/storage system.
 
 > 🔥🐉 **_Warning!_** This isn't very stable yet. I would wait to use it in production.
 
-## Todos
-
-- [x] write v1 of the code based on [this codepen](https://codepen.io/mykalmachon/pen/b72458af7d9548a7d69021811ea695ed?editors=0011)
-- [ ] write tests for the code
-- [ ] write a build script to compile a UMD module
-
 ## Installation
 
 You can install this package via npm with
 
 ```bash
-npm install formstore
+npm install @tinybox-software/formstore
 ```
 
 ## Usage
