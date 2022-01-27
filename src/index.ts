@@ -29,7 +29,7 @@ const getFormFromCache = async (form: HTMLFormElement, store: UseStore) => {
   const formInCache = await get(formKey, store);
 
   // hydrate the HTML form
-  formInCache.values.forEach((value) => {
+  formInCache?.values.forEach((value) => {
     const id = Object.keys(value)[0];
     const el = form.querySelector(`input#${id}, textarea#${id}`) as CachedInput;
 
@@ -88,14 +88,17 @@ const attachToForms = (store: UseStore, options: InitOptions) => {
       if (options.afterHydrate) options.afterHydrate();
 
       // attach listeners to update the cache on change
-      form.addEventListener('change', () => {
+      form.addEventListener('change', async () => {
         if (options.beforeCache) options.beforeCache();
-        updateFormInCache(form, store);
+        await updateFormInCache(form, store);
         if (options.afterCache) options.afterCache();
       });
 
       // attach listeners to empty the cache on submit
-      form.addEventListener('submit', () => deleteFormFromCache(form, store));
+      form.addEventListener(
+        'submit',
+        async () => await deleteFormFromCache(form, store)
+      );
     } catch (err) {
       // if an options listener was provided, run it
       if (options.onError) options.onError(err);
