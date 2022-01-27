@@ -4,9 +4,7 @@
   "description": "a simple indexedDB based form caching/storage system.",
   "source": "./src/index.ts",
   "main": "./dist/index.js",
-  "directories": {
-    "test": "test"
-  },
+  "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "npm-run-all build:*",
@@ -14,13 +12,15 @@
     "build:types": "tsc && rm -r ./dist/index.js",
     "test": "vitest",
     "test:watch": "vitest --watch",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "prebuild": "rimraf ./dist",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MykalMachon/FormDB.git"
   },
-  "author": "Mykal Machon <mykal@tinybox.dev>",
+  "author": "@MykalMachon",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/MykalMachon/FormDB/issues"
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
     "typescript": "^4.5.5",
     "vite": "^2.7.13",
     "vitest": "^0.2.4"
