@@ -10,7 +10,7 @@ type InitOptions = {
   onError?: Function;
 };
 
-type CachedInput = HTMLInputElement | HTMLTextAreaElement;
+type CachedInput = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
 // * INTERNAL PRIVATE FUNCTIONS
 
@@ -33,7 +33,9 @@ const getFormFromCache = async (form: HTMLFormElement, store: UseStore) => {
     const id = Object.keys(value)[0];
     const el = form.querySelector(`input#${id}, textarea#${id}`) as CachedInput;
 
-    el.value = value[id];
+    if (el){
+        el.value = value[id];
+    }
   });
 };
 
