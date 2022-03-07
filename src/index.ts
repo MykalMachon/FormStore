@@ -31,7 +31,7 @@ const getFormFromCache = async (form: HTMLFormElement, store: UseStore) => {
   // hydrate the HTML form
   formInCache?.values.forEach((value) => {
     const id = Object.keys(value)[0];
-    const el = form.querySelector(`input#${id}, textarea#${id}`) as CachedInput;
+    const el = form.querySelector(`input#${id}, textarea#${id}, select#${id}`) as CachedInput;
 
     if (el){
         el.value = value[id];
