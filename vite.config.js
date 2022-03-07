@@ -18,6 +18,9 @@ module.exports = defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: ['./vitest-setup.js']
+    setupFiles: ['./vitest-setup.ts'],
+    transformMode: {
+      web: [/\.[jt]sx$/],
+    },
   },
 });
