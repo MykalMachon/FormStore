@@ -1,11 +1,7 @@
 import { assert, describe, it } from 'vitest';
 import { screen } from '@testing-library/dom';
 
-
-
-
 import { init } from '../src/index'
-
 
 describe('Placeholders', () => {
   it('fires all hooks', () => {
