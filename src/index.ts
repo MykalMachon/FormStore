@@ -48,7 +48,7 @@ const getFormFromCache = async (form: HTMLFormElement, store: UseStore) => {
  */
 const updateFormInCache = async (form: HTMLFormElement, store: UseStore) => {
   const formId = form.id || 'unknown';
-  const inputs = [...form.querySelectorAll('input, textarea')] as CachedInput[];
+  const inputs = [...form.querySelectorAll('input, textarea, select')] as CachedInput[];
 
   const formKey = `form#${formId}`;
   const formValues = inputs.map((input) => ({ [input.id]: input.value }));
