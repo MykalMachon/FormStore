@@ -1,10 +1,12 @@
 import { assert, describe, it } from 'vitest';
 import { screen } from '@testing-library/dom';
+import user from '@testing-library/user-event'
 
 import { init } from '../src/index'
 
+
 const basicHTMLForm = `
-<form id="testing-umd" action="" data-cache>
+<form id="testing-umd" action="" data-cache="">
   <fieldset>
     <legend>personal info</legend>
     <div class="form-control">
@@ -37,7 +39,7 @@ const basicHTMLForm = `
 `
 
 describe('Basic Functionality', () => {
-  it('should init without errors', () => {
+  it('can init without errors', () => {
     let throwsError = false;
 
     document.body.innerHTML = basicHTMLForm;
@@ -49,11 +51,45 @@ describe('Basic Functionality', () => {
     assert.equal(throwsError, false);
   })
 
-  it('should update cache on change', () => {
-    assert.equal(true, false);
+  it('can create an indexedDB database', async () => {
+    document.body.innerHTML = basicHTMLForm;
+    let didErrorOut = false;
+
+
+    init({onError: () => didErrorOut = true});
+
+    const database = indexedDB.open('fs-db');
+    database.onsuccess = () => {
+      expect(database.result.objectStoreNames[0]).toBe('formstore');
+    }
+    database.onerror = () => didErrorOut = true;
+    database.onblocked = () => didErrorOut = true;
+
+    assert.equal(didErrorOut, false);
+  })
+
+  it('can update cache on change', async () => {
+    document.body.innerHTML = basicHTMLForm;
+    let didErrorOut = false;
+
+    init({onError: () => didErrorOut = true});
+
+    // make a form change
+    user.click(screen.getByText('name'));
+    user.keyboard('John Doe');
+    user.tab();
+    user.keyboard('johndoe@gmail.com')
+    user.tab();
+
+    // make sure it is visible in the cache
+    assert.equal(false, didErrorOut);
   });
 
   it('should hydrate from cache on reload', () => {
+    assert.equal(true, false);
+  })
+
+  it('should delete on form submission', () => {
     assert.equal(true, false);
   })
 });
