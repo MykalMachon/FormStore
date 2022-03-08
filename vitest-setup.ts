@@ -1,2 +1,4 @@
 import '@testing-library/jest-dom';
-import 'fake-indexeddb/auto.js';
+import indexeddb from 'fake-indexeddb';
+
+globalThis.indexedDB = indexeddb;
