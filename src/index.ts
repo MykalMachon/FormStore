@@ -31,10 +31,17 @@ const getFormFromCache = async (form: HTMLFormElement, store: UseStore) => {
   // hydrate the HTML form
   formInCache?.values.forEach((value) => {
     const id = Object.keys(value)[0];
-    const el = form.querySelector(`input#${id}, textarea#${id}, select#${id}`) as CachedInput;
+    if (id.length == 0) return; // ignore cases with no id
+    const el = form.querySelector(
+      `input#${id}, textarea#${id}, select#${id}`
+    ) as CachedInput;
 
-    if (el){
+    if (el) {
+      if (el instanceof HTMLInputElement && el.type == 'checkbox') {
+        el.checked = true;
+      } else {
         el.value = value[id];
+      }
     }
   });
 };
@@ -48,7 +55,9 @@ const getFormFromCache = async (form: HTMLFormElement, store: UseStore) => {
  */
 const updateFormInCache = async (form: HTMLFormElement, store: UseStore) => {
   const formId = form.id || 'unknown';
-  const inputs = [...form.querySelectorAll('input, textarea, select')] as CachedInput[];
+  const inputs = [
+    ...form.querySelectorAll('input, textarea, select'),
+  ] as CachedInput[];
 
   const formKey = `form#${formId}`;
   const formValues = inputs.map((input) => ({ [input.id]: input.value }));
