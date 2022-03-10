@@ -2,8 +2,6 @@
 
 a really simple indexedDB based form caching/storage system.
 
-> 🔥🐉 **_Warning!_** This isn't very stable yet. I would wait to use it in production.
-
 ## Installation
 
 You can install this package via npm with
@@ -59,3 +57,7 @@ These hooks can be useful for UI side effects (i.e showing a "saving form" indic
 ## Attribution
 
 This is heavily based on [idb-keyval by Jake Archibald](https://github.com/jakearchibald/idb-keyval)
+
+## Testing
+Because of  the heavily async nature of the code I use, and considering I want to do more integration that unit tests,
+I'm going to be migrating from JS-DOM to something like puppeteer. Tests wont run as fast, but we'll be able to validate that FormStore works in a real world environment.
