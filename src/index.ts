@@ -38,7 +38,7 @@ const getFormFromCache = async (form: HTMLFormElement, store: UseStore) => {
 
     if (el) {
       if (el instanceof HTMLInputElement && el.type == 'checkbox') {
-        el.checked = true;
+        el.checked = value[id];
       } else {
         el.value = value[id];
       }
@@ -60,7 +60,13 @@ const updateFormInCache = async (form: HTMLFormElement, store: UseStore) => {
   ] as CachedInput[];
 
   const formKey = `form#${formId}`;
-  const formValues = inputs.map((input) => ({ [input.id]: input.value }));
+  const formValues = inputs.map((input) => {
+    if (input instanceof HTMLInputElement && input.type == 'checkbox') {
+      return { [input.id]: input.checked };
+    } else {
+      return { [input.id]: input.value };
+    }
+  });
 
   return set(formKey, { values: formValues }, store);
 };
