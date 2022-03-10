@@ -8,5 +8,5 @@
     "declaration": true,
     "types": ["vitest/globals", "@testing-library/jest-dom", "@testing-library/dom"]
   },
-  "include": ["src/**/*", "vitest-setup.ts"]
+  "include": ["src/**/*"]
 }
