@@ -1,9 +1,8 @@
 import { assert, describe, it } from 'vitest';
 import { screen } from '@testing-library/dom';
-import user from '@testing-library/user-event'
+import user from '@testing-library/user-event';
 
-import { init } from '../src/index'
-
+import { init } from '../src/index';
 
 const basicHTMLForm = `
 <form id="testing-umd" action="" data-cache="">
@@ -36,7 +35,7 @@ const basicHTMLForm = `
 <div class="toast-wrapper">
   <div id="toast" class="toast hidden"></div>
 </div>
-`
+`;
 
 describe('Basic Functionality', () => {
   it('can init without errors', () => {
@@ -45,40 +44,41 @@ describe('Basic Functionality', () => {
     document.body.innerHTML = basicHTMLForm;
 
     init({
-      onError: () => {throwsError = true;}
-    }) 
+      onError: () => {
+        throwsError = true;
+      },
+    });
 
     assert.equal(throwsError, false);
-  })
+  });
 
   it('can create an indexedDB database', async () => {
     document.body.innerHTML = basicHTMLForm;
     let didErrorOut = false;
 
-
-    init({onError: () => didErrorOut = true});
+    init({ onError: () => (didErrorOut = true) });
 
     const database = indexedDB.open('fs-db');
     database.onsuccess = () => {
       expect(database.result.objectStoreNames[0]).toBe('formstore');
-    }
-    database.onerror = () => didErrorOut = true;
-    database.onblocked = () => didErrorOut = true;
+    };
+    database.onerror = () => (didErrorOut = true);
+    database.onblocked = () => (didErrorOut = true);
 
     assert.equal(didErrorOut, false);
-  })
+  });
 
   it('can update cache on change', async () => {
     document.body.innerHTML = basicHTMLForm;
     let didErrorOut = false;
 
-    init({onError: () => didErrorOut = true});
+    init({ onError: () => (didErrorOut = true) });
 
     // make a form change
     user.click(screen.getByText('name'));
     user.keyboard('John Doe');
     user.tab();
-    user.keyboard('johndoe@gmail.com')
+    user.keyboard('johndoe@gmail.com');
     user.tab();
 
     // make sure it is visible in the cache
@@ -87,9 +87,9 @@ describe('Basic Functionality', () => {
 
   it('should hydrate from cache on reload', () => {
     assert.equal(true, false);
-  })
+  });
 
   it('should delete on form submission', () => {
     assert.equal(true, false);
-  })
+  });
 });

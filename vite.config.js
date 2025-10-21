@@ -1,23 +1,44 @@
-const path = require('path');
-const { defineConfig } = require('vite');
+import { defineConfig } from 'vite';
+import { resolve } from 'path';
+import dts from 'vite-plugin-dts';
 
-module.exports = defineConfig({
+export default defineConfig({
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
+      entry: resolve(__dirname, 'src/index.ts'),
       name: 'FormStore',
       fileName: (format) => `formstore.${format}.js`,
+      formats: ['es', 'umd'],
     },
+    sourcemap: true,
     rollupOptions: {
-      // libs that you don't want bundled in your dist
-      // see https://vitejs.dev/guide/build.html#library-mode
-      external: [],
-      output: {},
+      output: {
+        exports: 'named',
+      },
     },
+    target: 'es2020',
+    minify: 'terser',
   },
+  plugins: [
+    dts({
+      insertTypesEntry: true,
+      rollupTypes: true,
+    }),
+  ],
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: ['./vitest-setup.ts']
+    setupFiles: ['./vitest-setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'test/',
+        'dist/',
+        '*.config.js',
+        '*.config.ts',
+      ],
+    },
   },
 });

@@ -1,12 +1,30 @@
 {
   "compilerOptions": {
-    "outFile": "./dist/index.js",
-    "moduleResolution": "node",
-    "module": "amd",
-    "lib": ["es2015", "DOM", "DOM.Iterable"],
-    "downlevelIteration": true,
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": false,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+
+    /* Type Checking */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Declaration */
     "declaration": true,
-    "types": ["vitest/globals", "@testing-library/jest-dom", "@testing-library/dom"]
+    "declarationDir": "./dist",
+    "emitDeclarationOnly": true,
+
+    /* Types */
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test"]
 }

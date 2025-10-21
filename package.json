@@ -1,48 +1,79 @@
 {
   "name": "@tinybox-software/formstore",
   "version": "1.0.8",
-  "description": "a simple indexedDB based form caching/storage system.",
-  "source": "./src/index.ts",
+  "description": "A simple indexedDB based form caching/storage system for web applications.",
+  "type": "module",
   "main": "./dist/formstore.umd.js",
   "module": "./dist/formstore.es.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/formstore.es.js",
+      "require": "./dist/formstore.umd.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
   "scripts": {
     "dev": "vite",
-    "build": "npm-run-all build:*",
-    "build:vite": "tsc --noEmit && vite build",
-    "build:types": "tsc && rm -r ./dist/index.js",
-    "test": "vitest",
-    "test:watch": "vitest --watch",
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:coverage": "vitest --coverage",
+    "lint": "eslint src test --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "prebuild": "rimraf ./dist",
     "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MykalMachon/FormDB.git"
+    "url": "git+https://github.com/MykalMachon/FormStore.git"
   },
   "author": "@MykalMachon",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/MykalMachon/FormDB/issues"
+    "url": "https://github.com/MykalMachon/FormStore/issues"
   },
-  "homepage": "https://github.com/MykalMachon/FormDB#readme",
+  "homepage": "https://github.com/MykalMachon/FormStore#readme",
+  "keywords": [
+    "form",
+    "cache",
+    "indexeddb",
+    "storage",
+    "autosave",
+    "form-persistence"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
-    "idb-keyval": "^6.1.0"
+    "idb-keyval": "^6.2.1"
   },
   "devDependencies": {
-    "@testing-library/dom": "^8.11.3",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/user-event": "^13.5.0",
-    "fake-indexeddb": "^3.1.7",
-    "jsdom": "^19.0.0",
-    "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.5.5",
-    "vite": "^2.7.13",
-    "vitest": "^0.2.4"
-  },
-  "directories": {
-    "test": "test"
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/user-event": "^14.5.2",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
+    "@vitest/coverage-v8": "^2.1.8",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "fake-indexeddb": "^6.0.0",
+    "globals": "^15.15.0",
+    "jsdom": "^25.0.1",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "terser": "^5.37.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5",
+    "vite-plugin-dts": "^4.3.0",
+    "vitest": "^2.1.8"
   }
 }
