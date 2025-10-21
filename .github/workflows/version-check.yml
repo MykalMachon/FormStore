@@ -1,0 +1,100 @@
+name: Version Conflict Check
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Get package version
+        id: package-version
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          echo "Package version: $PACKAGE_VERSION"
+
+      - name: Get published version
+        id: published-version
+        run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          PUBLISHED_VERSION=$(npm view $PACKAGE_NAME version 2>/dev/null || echo "0.0.0")
+          echo "version=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
+          echo "Published version: $PUBLISHED_VERSION"
+
+      - name: Compare versions
+        run: |
+          PACKAGE_VERSION="${{ steps.package-version.outputs.version }}"
+          PUBLISHED_VERSION="${{ steps.published-version.outputs.version }}"
+
+          echo "Package version: $PACKAGE_VERSION"
+          echo "Published version: $PUBLISHED_VERSION"
+
+          if [ "$PACKAGE_VERSION" = "$PUBLISHED_VERSION" ]; then
+            echo "::error::❌ Version conflict detected! Package version ($PACKAGE_VERSION) matches the published version on npm."
+            echo "::error::Please increment the version in package.json before merging to main."
+            exit 1
+          else
+            echo "✅ Version check passed. Package version ($PACKAGE_VERSION) differs from published version ($PUBLISHED_VERSION)."
+          fi
+
+      - name: Post version info comment
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const packageVersion = '${{ steps.package-version.outputs.version }}';
+            const publishedVersion = '${{ steps.published-version.outputs.version }}';
+            const match = packageVersion === publishedVersion;
+
+            const body = match
+              ? `## ❌ Version Conflict Detected\n\n` +
+                `- **Package version**: \`${packageVersion}\`\n` +
+                `- **Published version**: \`${publishedVersion}\`\n\n` +
+                `⚠️ Please increment the version in \`package.json\` before merging.`
+              : `## ✅ Version Check Passed\n\n` +
+                `- **Package version**: \`${packageVersion}\`\n` +
+                `- **Published version**: \`${publishedVersion}\`\n\n` +
+                `The package version has been properly incremented.`;
+
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('Version Check')
+            );
+
+            // Update or create comment
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
